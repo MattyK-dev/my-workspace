@@ -1,14 +1,21 @@
-import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import { Component, OnInit } from '@angular/core';
+
+import { ApiService } from './services/api.service';
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'frontend';
+export class AppComponent implements OnInit {
+  greeting = '';
+
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.apiService.getGreeting().subscribe((data) => {
+      this.greeting = data.message;
+    });
+  }
 }
